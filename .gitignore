@@ -1,8 +1,13 @@
-HELP.md
+pet-api/HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+!**/maven-wrapper.jar
+
+### Logs ###
+logs/
+*.log
 
 ### STS ###
 .apt_generated
@@ -18,6 +23,12 @@ target/
 *.iws
 *.iml
 *.ipr
+
+### Archivos sensibles ###
+.env
+*.env
+src/main/resources/application.properties
+src/main/resources/application.yml
 
 ### NetBeans ###
 /nbproject/private/
