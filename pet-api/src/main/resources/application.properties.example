@@ -1,0 +1,6 @@
+# App name
+spring.application.name=pet-api
+
+# JWT secret key
+jwt.secret=your_jwt_secret_here
+
