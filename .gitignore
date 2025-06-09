@@ -27,8 +27,8 @@ logs/
 ### Archivos sensibles ###
 .env
 *.env
-src/main/resources/application.properties
-src/main/resources/application.yml
+pet-api/src/main/resources/application.properties
+pet-api/src/main/resources/application.yml
 
 ### NetBeans ###
 /nbproject/private/
