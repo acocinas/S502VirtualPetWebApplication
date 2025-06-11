@@ -8,11 +8,14 @@ import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -42,11 +45,13 @@ public class JwtFilter extends OncePerRequestFilter {
         boolean isUnauthenticated = SecurityContextHolder.getContext().getAuthentication() == null;
         boolean isValidToken = jwtUtil.validateToken(jwt, username);
         if (username != null && isUnauthenticated && isValidToken) {
+            String role = jwtUtil.extractRole(jwt);
+            List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                    new UsernamePasswordAuthenticationToken(username, null, null);
+                    new UsernamePasswordAuthenticationToken(username, null, authorities);
 
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            log.info("Autenticado: {}", username);
+            log.info("Autenticado: {} con rol {} ", username, role);
         }
 
         filterChain.doFilter(request, response);
