@@ -1,6 +1,37 @@
-# App name
+# -----------------------------
+# App Name
+# -----------------------------
 spring.application.name=pet-api
 
-# JWT secret key
-jwt.secret=your_jwt_secret_here
+# -----------------------------
+# JWT Config  Reemplaza esta clave con tu propia clave segura en local
+# -----------------------------
+jwt.secret=PON_TU_CLAVE
+jwt.expiration=3600000
+admin.username=your_admin_username
+admin.password=your_admin_password
 
+# -----------------------------
+# Permitir override si hay beans duplicados
+# -----------------------------
+spring.main.allow-bean-definition-overriding=true
+
+# -----------------------------
+# H2 Database Config (en memoria)
+# -----------------------------
+spring.datasource.url=jdbc:h2:mem:virtualpetdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+
+# H2 console (para depuración desde navegador)
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+
+# -----------------------------
+# JPA / Hibernate
+# -----------------------------
+spring.jpa.hibernate.ddl-auto=create
+spring.datasource.initialization-mode=always
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
