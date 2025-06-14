@@ -11,10 +11,18 @@ public class PetMapper {
         return PetDTO.builder()
                 .id(pet.getId())
                 .name(pet.getName())
-                .type(pet.getType())
-                .mood(pet.getMood())
+                .developerType(pet.getDeveloperType())
+                .habitat(pet.getHabitat())
+                .knowledge(pet.getKnowledge())
+                .levelKnowledge(pet.getLevelKnowledge())
+                .happiness(pet.getHappiness())
+                .hunger(pet.getHunger())
                 .energy(pet.getEnergy())
-                .environment(pet.getEnvironment())
+                .health(pet.getHealth())
+                .levelHealth(pet.getLevelHealth())
+                .accessory(pet.getAccessory())
+                .stacks(pet.getStacks())
+                .lastSleep(pet.getLastSleep())
                 .build();
     }
 
@@ -22,10 +30,18 @@ public class PetMapper {
         return Pet.builder()
                 .id(petDTO.getId())
                 .name(petDTO.getName())
-                .type(petDTO.getType())
-                .mood(petDTO.getMood())
+                .developerType(petDTO.getDeveloperType())
+                .habitat(petDTO.getHabitat())
+                .knowledge(petDTO.getKnowledge())
+                .levelKnowledge(petDTO.getLevelKnowledge())
+                .happiness(petDTO.getHappiness())
+                .hunger(petDTO.getHunger())
                 .energy(petDTO.getEnergy())
-                .environment(petDTO.getEnvironment())
+                .health(petDTO.getHealth())
+                .levelHealth(petDTO.getLevelHealth())
+                .accessory(petDTO.getAccessory())
+                .stacks(petDTO.getStacks())
+                .lastSleep(petDTO.getLastSleep())
                 .build();
     }
 }
