@@ -1,5 +1,6 @@
 package com.virtualpet.petapi.service.study;
 
+import com.virtualpet.petapi.model.DeveloperType;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,9 +16,10 @@ public class StackAffinityService {
 
     private static final List<String> COMMON_STACKS = List.of("GitHub", "Docker", "Kubernetes");
 
-    public boolean isMainStack(String developerType, String stack) {
-        return MAIN_STACKS.getOrDefault(developerType.toUpperCase(), List.of()).stream()
-                .anyMatch(stack::equalsIgnoreCase);
+    public boolean isMainStack(DeveloperType developerType, String stack) {
+        return MAIN_STACKS.getOrDefault(developerType.name(), List.of()).stream()
+                .anyMatch(stack::equalsIgnoreCase)
+                || COMMON_STACKS.stream().anyMatch(stack::equalsIgnoreCase);
     }
 
     public boolean isCommonStack(String stack) {

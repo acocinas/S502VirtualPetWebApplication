@@ -1,5 +1,6 @@
 package com.virtualpet.petapi.service.study;
 
+import com.virtualpet.petapi.model.HabitatType;
 import com.virtualpet.petapi.model.Pet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,7 @@ public class StudyPointsCalculator {
 
     public int calculateKnowledgePoints(Pet pet, String stack) {
         boolean isMainStack = stackAffinityService.isMainStack(pet.getDeveloperType(), stack);
-        boolean isIdealHabitat = "office".equalsIgnoreCase(pet.getHabitat());
+        boolean isIdealHabitat = pet.getHabitatType() == HabitatType.WORKSPACE;
 
         int base = isMainStack ? 4:3;
         int bonus = isIdealHabitat ? 2:1;

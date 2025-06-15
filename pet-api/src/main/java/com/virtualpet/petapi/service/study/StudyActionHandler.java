@@ -35,12 +35,6 @@ public class StudyActionHandler implements PetActionHandler {
     }
 
     private void improveAccessory(Pet pet) {
-        switch (pet.getAccessory()) {
-            case "DESKTOP" -> pet.setAccessory("LAPTOP");
-            case "LAPTOP" -> pet.setAccessory("ULTRA_LAPTOP");
-            case "ULTRA_LAPTOP" -> pet.setAccessory("ULTRA_LAPTOP + MONITOR");
-            case "ULTRA_LAPTOP + MONITOR" -> pet.setAccessory("SETUP_GAMER");
-            case "SETUP_GAMER" -> pet.setAccessory("SETUP_PROFESIONAL_ULTIMATE");
-        }
+        pet.setAccessoryType(pet.getAccessoryType().getNextLevel());
     }
 }
