@@ -9,10 +9,13 @@ import com.virtualpet.petapi.model.User;
 import com.virtualpet.petapi.repository.PetRepository;
 import com.virtualpet.petapi.security.AuthUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PetService {
@@ -31,6 +34,8 @@ public class PetService {
     }
 
     public PetDTO createPetForUser(PetDTO petDTO, User user) {
+        log.info("Creating pet for user: {}", user.getUsername());
+        log.debug("Received DTO: {}", petDTO);
         Pet pet = petMapper.toEntity(petDTO);
         pet.setUser(user);
         Pet savedPet = petRepository.save(pet);
@@ -38,9 +43,13 @@ public class PetService {
     }
 
     public PetDTO updatePet(Long id, PetDTO petDTO) {
-        Pet pet = petMapper.toEntity(petDTO);
-        pet.setId(id);
-        Pet updatedPet = petRepository.save(pet);
+        Pet existingPet = petRepository.findById(id)
+                        .orElseThrow(() -> new PetNotFoundException("Pet not found" + id));
+
+        Pet updatedPet = petMapper.toEntity(petDTO);
+        updatedPet.setId(id);
+        updatedPet.setUser(existingPet.getUser());
+        petRepository.save(updatedPet);
         return petMapper.toDto(updatedPet);
     }
 

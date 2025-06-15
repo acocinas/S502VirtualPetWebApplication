@@ -1,6 +1,9 @@
 package com.virtualpet.petapi.mapper;
 
 import com.virtualpet.petapi.dto.PetDTO;
+import com.virtualpet.petapi.model.AccessoryType;
+import com.virtualpet.petapi.model.DeveloperType;
+import com.virtualpet.petapi.model.HabitatType;
 import com.virtualpet.petapi.model.Pet;
 import org.springframework.stereotype.Component;
 
@@ -11,18 +14,17 @@ public class PetMapper {
         return PetDTO.builder()
                 .id(pet.getId())
                 .name(pet.getName())
-                .developerType(pet.getDeveloperType())
-                .habitat(pet.getHabitat())
+                .developerType(pet.getDeveloperType().name())
+                .habitatType(pet.getHabitatType().name())
+                .accessoryType(pet.getAccessoryType().name())
                 .knowledge(pet.getKnowledge())
                 .levelKnowledge(pet.getLevelKnowledge())
                 .happiness(pet.getHappiness())
-                .hunger(pet.getHunger())
+                .nutrition(pet.getNutrition())
                 .energy(pet.getEnergy())
                 .health(pet.getHealth())
                 .levelHealth(pet.getLevelHealth())
-                .accessory(pet.getAccessory())
                 .stacks(pet.getStacks())
-                .lastSleep(pet.getLastSleep())
                 .build();
     }
 
@@ -30,18 +32,17 @@ public class PetMapper {
         return Pet.builder()
                 .id(petDTO.getId())
                 .name(petDTO.getName())
-                .developerType(petDTO.getDeveloperType())
-                .habitat(petDTO.getHabitat())
+                .developerType(DeveloperType.valueOf(petDTO.getDeveloperType()))
+                .habitatType(HabitatType.valueOf(petDTO.getHabitatType()))
+                .accessoryType(AccessoryType.valueOf(petDTO.getAccessoryType()))
                 .knowledge(petDTO.getKnowledge())
                 .levelKnowledge(petDTO.getLevelKnowledge())
                 .happiness(petDTO.getHappiness())
-                .hunger(petDTO.getHunger())
+                .nutrition(petDTO.getNutrition())
                 .energy(petDTO.getEnergy())
                 .health(petDTO.getHealth())
                 .levelHealth(petDTO.getLevelHealth())
-                .accessory(petDTO.getAccessory())
                 .stacks(petDTO.getStacks())
-                .lastSleep(petDTO.getLastSleep())
                 .build();
     }
 }
