@@ -1,6 +1,6 @@
 package com.virtualpet.petapi.service.study;
 
-import com.virtualpet.petapi.model.HabitatType;
+import com.virtualpet.petapi.exception.HandleGenericException;
 import com.virtualpet.petapi.model.Pet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -12,12 +12,25 @@ public class StudyPointsCalculator {
     private final StackAffinityService stackAffinityService;
 
     public int calculateKnowledgePoints(Pet pet, String stack) {
+        if (stack == null || stack.isBlank()) {
+            throw new HandleGenericException("Stack cannot be null or empty");
+        }
         boolean isMainStack = stackAffinityService.isMainStack(pet.getDeveloperType(), stack);
-        boolean isIdealHabitat = pet.getHabitatType() == HabitatType.WORKSPACE;
+        boolean isCommonStack = stackAffinityService.isCommonStack(stack);
+
+        if (!isMainStack && !isCommonStack) {
+            throw new HandleGenericException("Invalid stack: " + stack);
+        }
 
         int base = isMainStack ? 4:3;
-        int bonus = isIdealHabitat ? 2:1;
-        int total = base * bonus;
+
+        double multiplier = switch (pet.getHabitatType()) {
+            case WORKSPACE -> 2.0;
+            case REST_ZONE -> 1.0;
+            case WELLNESS_ZONE, SOCIAL_ZONE -> 0.5;
+        };
+
+        int total = (int) Math.round(base * multiplier);
 
         int currentLevel = pet.getLevelKnowledge();
         if (currentLevel < 40) {

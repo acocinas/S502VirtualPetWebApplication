@@ -30,10 +30,7 @@ public class Pet {
     private int knowledge;
     private int levelKnowledge;
     private int happiness;
-    private int nutrition;
     private int energy;
-    private int health;
-    private int levelHealth;
 
 
     @ElementCollection

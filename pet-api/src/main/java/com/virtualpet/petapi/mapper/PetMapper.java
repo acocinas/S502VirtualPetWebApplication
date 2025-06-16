@@ -20,10 +20,7 @@ public class PetMapper {
                 .knowledge(pet.getKnowledge())
                 .levelKnowledge(pet.getLevelKnowledge())
                 .happiness(pet.getHappiness())
-                .nutrition(pet.getNutrition())
                 .energy(pet.getEnergy())
-                .health(pet.getHealth())
-                .levelHealth(pet.getLevelHealth())
                 .stacks(pet.getStacks())
                 .build();
     }
@@ -38,10 +35,7 @@ public class PetMapper {
                 .knowledge(petDTO.getKnowledge())
                 .levelKnowledge(petDTO.getLevelKnowledge())
                 .happiness(petDTO.getHappiness())
-                .nutrition(petDTO.getNutrition())
                 .energy(petDTO.getEnergy())
-                .health(petDTO.getHealth())
-                .levelHealth(petDTO.getLevelHealth())
                 .stacks(petDTO.getStacks())
                 .build();
     }

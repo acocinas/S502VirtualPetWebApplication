@@ -4,6 +4,7 @@ import com.virtualpet.petapi.exception.PetNotFoundException;
 import com.virtualpet.petapi.model.Pet;
 import com.virtualpet.petapi.repository.PetRepository;
 import com.virtualpet.petapi.service.actions.PetActionHandler;
+import com.virtualpet.petapi.service.happiness.HappinessPenaltyCalculator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ public class StudyActionHandler implements PetActionHandler {
 
     private final PetRepository petRepository;
     private final StudyPointsCalculator studyPointsCalculator;
+    private final HappinessPenaltyCalculator happinessPenaltyCalculator;
 
     @Override
     @Transactional
@@ -24,7 +26,10 @@ public class StudyActionHandler implements PetActionHandler {
 
         int points = studyPointsCalculator.calculateKnowledgePoints(pet, stack);
         pet.setKnowledge(pet.getKnowledge() + points);
-        pet.setEnergy(pet.getEnergy() - 10);
+        pet.setEnergy(Math.max(pet.getEnergy() - 10, 0));
+
+        int penalty = happinessPenaltyCalculator.calculatePenaltyPoints(pet);
+        pet.setHappiness(Math.max(pet.getHappiness() - penalty, 0));
 
         if (pet.getKnowledge() >= 100) {
             pet.setLevelKnowledge(pet.getLevelKnowledge() + 1);
