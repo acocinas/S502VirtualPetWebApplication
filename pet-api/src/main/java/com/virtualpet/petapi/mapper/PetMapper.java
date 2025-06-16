@@ -1,11 +1,14 @@
 package com.virtualpet.petapi.mapper;
 
 import com.virtualpet.petapi.dto.PetDTO;
+import com.virtualpet.petapi.dto.StackProgress;
 import com.virtualpet.petapi.model.AccessoryType;
 import com.virtualpet.petapi.model.DeveloperType;
 import com.virtualpet.petapi.model.HabitatType;
 import com.virtualpet.petapi.model.Pet;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 @Component
 public class PetMapper {
@@ -21,12 +24,17 @@ public class PetMapper {
                 .levelKnowledge(pet.getLevelKnowledge())
                 .happiness(pet.getHappiness())
                 .energy(pet.getEnergy())
-                .stacks(pet.getStacks())
+                .stacks(pet.getStackPoints()
+                        .entrySet().stream()
+                        .map(entry -> new StackProgress(entry.getKey(),
+                                entry.getValue()))
+                        .toList()
+                )
                 .build();
     }
 
     public Pet toEntity(PetDTO petDTO) {
-        return Pet.builder()
+        Pet pet = Pet.builder()
                 .id(petDTO.getId())
                 .name(petDTO.getName())
                 .developerType(DeveloperType.valueOf(petDTO.getDeveloperType()))
@@ -36,7 +44,13 @@ public class PetMapper {
                 .levelKnowledge(petDTO.getLevelKnowledge())
                 .happiness(petDTO.getHappiness())
                 .energy(petDTO.getEnergy())
-                .stacks(petDTO.getStacks())
                 .build();
+        if (petDTO.getStacks() != null) {
+            pet.setStackPoints(
+                    petDTO.getStacks().stream()
+                            .collect(Collectors.toMap(StackProgress::getStackName, StackProgress::getStudyPoints))
+            );
+        }
+        return pet;
     }
 }

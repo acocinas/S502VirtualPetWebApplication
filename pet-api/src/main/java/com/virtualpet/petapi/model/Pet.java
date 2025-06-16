@@ -3,7 +3,7 @@ package com.virtualpet.petapi.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "pets")
@@ -34,7 +34,11 @@ public class Pet {
 
 
     @ElementCollection
-    private List<String> stacks;
+    @CollectionTable(name = "pet_study_points", joinColumns = @JoinColumn(name = "pet_id"))
+    @MapKeyColumn(name = "stack_name")
+    @Column(name = "study_points")
+    private Map<String, Integer> stackPoints = new HashMap<>();
+
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

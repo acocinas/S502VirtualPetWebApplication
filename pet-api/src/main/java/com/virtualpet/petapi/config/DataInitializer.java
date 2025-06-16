@@ -43,17 +43,17 @@ public class DataInitializer {
             List<Pet> adminPets = petRepository.findByUser(admin);
             if (adminPets.isEmpty()) {
                 Pet demoPet = Pet.builder()
-                        .name("Pixel")
-                        .developerType(DeveloperType.FRONTEND)
+                        .name("ChatiBackend")
+                        .developerType(DeveloperType.BACKEND)
                         .habitatType(HabitatType.WORKSPACE)
-                        .energy(50)
+                        .knowledge(0)
+                        .levelKnowledge(0)
                         .happiness(60)
-                        .knowledge(10)
-                        .levelKnowledge(1)
-                        .accessoryType(AccessoryType.DESKTOP)
-                        .stacks(List.of("HTML", "CSS", "React"))
+                        .energy(60)
                         .user(admin)
                         .build();
+
+                demoPet.setAccessoryType(AccessoryType.DESKTOP);
 
                 petRepository.save(demoPet);
                 log.info("🐾 Demo pet created for admin: {}", demoPet.getName());

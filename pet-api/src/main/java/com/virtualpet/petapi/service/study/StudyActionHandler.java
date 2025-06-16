@@ -31,6 +31,8 @@ public class StudyActionHandler implements PetActionHandler {
         int penalty = happinessPenaltyCalculator.calculatePenaltyPoints(pet);
         pet.setHappiness(Math.max(pet.getHappiness() - penalty, 0));
 
+        pet.getStackPoints().merge(stack, points, Integer::sum);
+
         if (pet.getKnowledge() >= 100) {
             pet.setLevelKnowledge(pet.getLevelKnowledge() + 1);
             pet.setKnowledge(0);
