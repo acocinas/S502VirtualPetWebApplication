@@ -8,6 +8,7 @@ import com.virtualpet.petapi.model.HabitatType;
 import com.virtualpet.petapi.model.Pet;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -24,12 +25,12 @@ public class PetMapper {
                 .levelKnowledge(pet.getLevelKnowledge())
                 .happiness(pet.getHappiness())
                 .energy(pet.getEnergy())
-                .stacks(pet.getStackPoints()
-                        .entrySet().stream()
-                        .map(entry -> new StackProgress(entry.getKey(),
-                                entry.getValue()))
-                        .toList()
-                )
+                .stacks(pet.getStackPoints() != null ?
+                        pet.getStackPoints().entrySet().stream()
+                                .map(entry ->
+                                        new StackProgress(entry.getKey(), entry.getValue()))
+                                .toList()
+                        : List.of())
                 .build();
     }
 
@@ -39,7 +40,10 @@ public class PetMapper {
                 .name(petDTO.getName())
                 .developerType(DeveloperType.valueOf(petDTO.getDeveloperType()))
                 .habitatType(HabitatType.valueOf(petDTO.getHabitatType()))
-                .accessoryType(AccessoryType.valueOf(petDTO.getAccessoryType()))
+                .accessoryType(
+                petDTO.getAccessoryType() != null
+                        ? AccessoryType.valueOf(petDTO.getAccessoryType())
+                        : AccessoryType.DESKTOP)
                 .knowledge(petDTO.getKnowledge())
                 .levelKnowledge(petDTO.getLevelKnowledge())
                 .happiness(petDTO.getHappiness())
