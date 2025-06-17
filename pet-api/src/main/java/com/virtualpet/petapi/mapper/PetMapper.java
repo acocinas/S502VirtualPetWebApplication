@@ -39,15 +39,12 @@ public class PetMapper {
                 .id(petDTO.getId())
                 .name(petDTO.getName())
                 .developerType(DeveloperType.valueOf(petDTO.getDeveloperType()))
-                .habitatType(HabitatType.valueOf(petDTO.getHabitatType()))
-                .accessoryType(
-                petDTO.getAccessoryType() != null
-                        ? AccessoryType.valueOf(petDTO.getAccessoryType())
-                        : AccessoryType.DESKTOP)
-                .knowledge(petDTO.getKnowledge())
-                .levelKnowledge(petDTO.getLevelKnowledge())
-                .happiness(petDTO.getHappiness())
-                .energy(petDTO.getEnergy())
+                .habitatType(HabitatType.REST_ZONE)
+                .accessoryType(AccessoryType.DESKTOP)
+                .knowledge(0)
+                .levelKnowledge(0)
+                .happiness(50)
+                .energy(100)
                 .build();
         if (petDTO.getStacks() != null) {
             pet.setStackPoints(
