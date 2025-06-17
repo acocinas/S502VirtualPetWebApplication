@@ -16,6 +16,7 @@ public class StudyActionHandler implements PetActionHandler {
     private final PetRepository petRepository;
     private final StudyPointsCalculator studyPointsCalculator;
     private final HappinessPenaltyCalculator happinessPenaltyCalculator;
+    private final StudyPreconditionsValidator studyPreconditionsValidator;
 
     @Override
     @Transactional
@@ -23,6 +24,8 @@ public class StudyActionHandler implements PetActionHandler {
 
         Pet pet = petRepository.findById(petId)
                 .orElseThrow(() -> new PetNotFoundException("Pet not found"));
+
+        studyPreconditionsValidator.validateCanStudy(pet);
 
         int points = studyPointsCalculator.calculateKnowledgePoints(pet, stack);
         pet.setKnowledge(pet.getKnowledge() + points);

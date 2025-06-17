@@ -45,11 +45,11 @@ public class DataInitializer {
                 Pet demoPet = Pet.builder()
                         .name("ChatiBackend")
                         .developerType(DeveloperType.BACKEND)
-                        .habitatType(HabitatType.WORKSPACE)
+                        .habitatType(HabitatType.REST_ZONE)
                         .knowledge(0)
                         .levelKnowledge(0)
-                        .happiness(60)
-                        .energy(60)
+                        .happiness(50)
+                        .energy(100)
                         .user(admin)
                         .build();
 
