@@ -33,8 +33,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object>  handleGenericException(Exception ex) {
         log.error("Unexpected error", ex);
         return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
-
     }
+
+    @ExceptionHandler(PetAlreadyExistsException.class)
+    public ResponseEntity<Object> handlePetAlreadyExistsException(PetAlreadyExistsException ex) {
+        return buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
+    }
+
 
     private ResponseEntity<Object> buildErrorResponse(HttpStatus status, String message) {
         Map<String, Object> errorBody = new HashMap<>();

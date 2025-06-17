@@ -1,12 +1,14 @@
 package com.virtualpet.petapi.service;
 
 import com.virtualpet.petapi.dto.PetDTO;
+import com.virtualpet.petapi.exception.PetAlreadyExistsException;
 import com.virtualpet.petapi.exception.PetNotFoundException;
 import com.virtualpet.petapi.exception.UnauthorizedAccessException;
 import com.virtualpet.petapi.mapper.PetMapper;
 import com.virtualpet.petapi.model.Pet;
 import com.virtualpet.petapi.model.User;
 import com.virtualpet.petapi.repository.PetRepository;
+import com.virtualpet.petapi.repository.custom.PetQueryRepository;
 import com.virtualpet.petapi.security.AuthUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ import java.util.List;
 public class PetService {
 
     private final PetRepository petRepository;
+    private final PetQueryRepository petQueryRepository;
     private final PetMapper petMapper;
     private final AuthUtil authUtil;
 
@@ -36,6 +39,9 @@ public class PetService {
     public PetDTO createPetForUser(PetDTO petDTO, User user) {
         log.info("Creating pet for user: {}", user.getUsername());
         log.debug("Received DTO: {}", petDTO);
+        if (petQueryRepository.existsByNameForUser(petDTO.getName(), user)) {
+            throw new PetAlreadyExistsException("You already have a pet with the name: " + petDTO.getName());
+        }
         Pet pet = petMapper.toEntity(petDTO);
         pet.setUser(user);
         Pet savedPet = petRepository.save(pet);
