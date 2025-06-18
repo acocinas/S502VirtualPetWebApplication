@@ -4,12 +4,14 @@ import com.virtualpet.petapi.dto.PetDTO;
 import com.virtualpet.petapi.model.User;
 import com.virtualpet.petapi.security.AuthUtil;
 import com.virtualpet.petapi.service.PetService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/api/v1/pets")
 @RequiredArgsConstructor

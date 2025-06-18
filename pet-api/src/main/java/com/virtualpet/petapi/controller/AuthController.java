@@ -6,6 +6,7 @@ import com.virtualpet.petapi.dto.LoginResponseDTO;
 import com.virtualpet.petapi.dto.UserDTO;
 import com.virtualpet.petapi.model.User;
 import com.virtualpet.petapi.security.JwtUtil;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,6 +63,7 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
     }
 
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/me")
     public ResponseEntity<UserDTO> getCurrentUser() {
         User user = authUtil.getCurrentUser();
