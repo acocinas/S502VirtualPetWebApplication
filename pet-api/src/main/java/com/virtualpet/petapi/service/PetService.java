@@ -5,6 +5,7 @@ import com.virtualpet.petapi.exception.PetAlreadyExistsException;
 import com.virtualpet.petapi.exception.PetNotFoundException;
 import com.virtualpet.petapi.exception.UnauthorizedAccessException;
 import com.virtualpet.petapi.mapper.PetMapper;
+import com.virtualpet.petapi.mapper.PetUpdater;
 import com.virtualpet.petapi.model.Pet;
 import com.virtualpet.petapi.model.User;
 import com.virtualpet.petapi.repository.PetRepository;
@@ -26,6 +27,7 @@ public class PetService {
     private final PetQueryRepository petQueryRepository;
     private final PetMapper petMapper;
     private final AuthUtil authUtil;
+    private final PetUpdater petUpdater;
 
     public List<PetDTO> getAllPets() {
         if (authUtil.isAdmin()) {
@@ -49,12 +51,14 @@ public class PetService {
     }
 
     public PetDTO updatePet(Long id, PetDTO petDTO) {
+        if (!authUtil.isAdmin()) {
+            throw new UnauthorizedAccessException("Only admins can update pets");
+        }
+
         Pet existingPet = petRepository.findById(id)
                         .orElseThrow(() -> new PetNotFoundException("Pet not found" + id));
 
-        Pet updatedPet = petMapper.toEntity(petDTO);
-        updatedPet.setId(id);
-        updatedPet.setUser(existingPet.getUser());
+        Pet updatedPet = petUpdater.applyUpdates(existingPet, petDTO);
         petRepository.save(updatedPet);
         return petMapper.toDto(updatedPet);
     }

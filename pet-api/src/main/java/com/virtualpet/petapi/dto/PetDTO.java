@@ -12,10 +12,10 @@ public class PetDTO {
     private String habitatType;
     private String accessoryType;
 
-    private int knowledge;
-    private int levelKnowledge;
-    private int happiness;
-    private int energy;
+    private Integer knowledge;
+    private Integer levelKnowledge;
+    private Integer happiness;
+    private Integer energy;
 
     private List<StackProgress> stacks;
 
