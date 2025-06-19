@@ -2,15 +2,34 @@ import { useEffect, useState } from 'react';
 import { getAllPets } from '../services/petService';
 import PetCard from '../components/PetCard';
 
-function MyPets() {
-  const [pets, setPets] = useState([]);
-  const [error, setError] = useState('');
+interface Stack {
+  stackName: string;
+  studyPoints: number;
+}
+
+interface Pet {
+  id: number;
+  name: string;
+  developerType: 'FRONTEND' | 'BACKEND';
+  habitatType: string;
+  accessoryType: string;
+  knowledge: number;
+  levelKnowledge: number;
+  happiness: number;
+  energy: number;
+  stacks?: Stack[];
+  ownerUsername: string;
+}
+
+const MyPets: React.FC = () => {
+  const [pets, setPets] = useState<Pet[]>([]);
+  const [error, setError] = useState<string>('');
   const username = localStorage.getItem('username');
 
   useEffect(() => {
     getAllPets()
       .then(data => {
-        const userPets = data.filter(pet => pet.ownerUsername === username);
+        const userPets = data.filter((pet: Pet) => pet.ownerUsername === username);
         setPets(userPets);
       })
       .catch(err => setError(err.message));
@@ -31,6 +50,6 @@ function MyPets() {
       )}
     </div>
   );
-}
+};
 
 export default MyPets;

@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPet } from '../services/petService';
 
-function CreatePet() {
-  const [name, setName] = useState('');
-  const [developerType, setDeveloperType] = useState('FRONTEND');
-  const [error, setError] = useState('');
+const CreatePet: React.FC = () => {
+  const [name, setName] = useState<string>('');
+  const [developerType, setDeveloperType] = useState<'FRONTEND' | 'BACKEND'>('FRONTEND');
+  const [error, setError] = useState<string>('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (!name.trim()) {
@@ -17,7 +17,12 @@ function CreatePet() {
     }
 
     try {
-      await createPet({ name, developerType });
+      await createPet({
+        name,
+        developerType,
+        habitatType: 'REST_ZONE',       // Puedes ajustar esto si deseas permitir selección
+        accessoryType: 'NO_ACCESSORY',  // Idem
+      });
       alert('Mascota creada correctamente');
       navigate('/mypets');
     } catch (err) {
@@ -44,7 +49,9 @@ function CreatePet() {
           <label>Tipo de desarrollador:</label>
           <select
             value={developerType}
-            onChange={(e) => setDeveloperType(e.target.value)}
+            onChange={(e) =>
+              setDeveloperType(e.target.value as 'FRONTEND' | 'BACKEND')
+            }
           >
             <option value="FRONTEND">Frontend 🐰</option>
             <option value="BACKEND">Backend 🐥</option>
@@ -55,6 +62,6 @@ function CreatePet() {
       </form>
     </div>
   );
-}
+};
 
 export default CreatePet;

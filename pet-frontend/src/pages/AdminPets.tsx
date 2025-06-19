@@ -1,11 +1,29 @@
-// src/pages/PetList.jsx
 import { useEffect, useState } from 'react';
 import { getAllPets } from '../services/petService';
 import PetCard from '../components/PetCard';
 
-function PetList() {
-  const [pets, setPets] = useState([]);
-  const [error, setError] = useState('');
+interface Stack {
+  stackName: string;
+  studyPoints: number;
+}
+
+interface Pet {
+  id: number;
+  name: string;
+  developerType: 'FRONTEND' | 'BACKEND';
+  habitatType: string;
+  accessoryType: string;
+  knowledge: number;
+  levelKnowledge: number;
+  happiness: number;
+  energy: number;
+  stacks?: Stack[];
+  ownerUsername: string;
+}
+
+const AdminPets: React.FC = () => {
+  const [pets, setPets] = useState<Pet[]>([]);
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     getAllPets()
@@ -15,7 +33,7 @@ function PetList() {
 
   return (
     <div>
-      <h2>🐾 Todas las Mascotas</h2>
+      <h2>🐾 Mascotas del sistema (vista admin)</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {pets.length > 0 ? (
         <div>
@@ -28,6 +46,6 @@ function PetList() {
       )}
     </div>
   );
-}
+};
 
-export default PetList;
+export default AdminPets;

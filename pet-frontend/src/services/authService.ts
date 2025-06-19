@@ -1,7 +1,7 @@
 const API_URL = 'http://localhost:8080/api/v1/auth/login';
 const REGISTER_URL = 'http://localhost:8080/api/v1/auth/register';
 
-export async function login(username, password) {
+export async function login(username: string, password: string): Promise<any> {
   const response = await fetch(API_URL, {
     method: 'POST',
     headers: {
@@ -17,7 +17,7 @@ export async function login(username, password) {
   return response.json();
 }
 
-export async function register(username, password) {
+export async function register(username: string, password: string): Promise<any> {
   const response = await fetch(REGISTER_URL, {
     method: 'POST',
     headers: {
@@ -34,7 +34,6 @@ export async function register(username, password) {
     const text = await response.text();
     return text ? JSON.parse(text) : {};
   } catch (e) {
-    // Si la respuesta no es JSON válido, devolvemos un objeto vacío
     return {};
   }
 }

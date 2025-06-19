@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { login, register } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
 
-function Login() {
-  const [isLogin, setIsLogin] = useState(true);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+const Login: React.FC = () => {
+  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     if (!username || !password) return alert('Rellena todos los campos');
 
@@ -24,7 +24,7 @@ function Login() {
     }
   };
 
-  const handleRegister = async (e) => {
+  const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
     if (!username || !password) return alert('Rellena todos los campos');
 
@@ -69,6 +69,6 @@ function Login() {
       </form>
     </div>
   );
-}
+};
 
 export default Login;

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-function Home() {
+const Home: React.FC = () => {
   const role = localStorage.getItem('role');
   const username = localStorage.getItem('username');
 
@@ -29,7 +29,6 @@ function Home() {
       )}
     </div>
   );
-}
+};
 
 export default Home;
-

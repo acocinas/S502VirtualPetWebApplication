@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Home from './pages/Home';
@@ -6,11 +7,7 @@ import AdminPets from './pages/AdminPets';
 import MyPets from './pages/MyPets';
 import CreatePet from './pages/CreatePet';
 
-
-
-
-
-function App() {
+const App: React.FC = () => {
   return (
     <Router>
       <Routes>
@@ -23,6 +20,6 @@ function App() {
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;
