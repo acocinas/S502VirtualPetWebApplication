@@ -19,4 +19,6 @@ public class PetDTO {
 
     private List<StackProgress> stacks;
 
+    private String ownerUsername;
+
 }

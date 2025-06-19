@@ -31,6 +31,7 @@ public class PetMapper {
                                         new StackProgress(entry.getKey(), entry.getValue()))
                                 .toList()
                         : List.of())
+                .ownerUsername(pet.getUser().getUsername())
                 .build();
     }
 
