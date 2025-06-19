@@ -18,20 +18,19 @@ public class PetMapper {
         return PetDTO.builder()
                 .id(pet.getId())
                 .name(pet.getName())
-                .developerType(pet.getDeveloperType().name())
-                .habitatType(pet.getHabitatType().name())
-                .accessoryType(pet.getAccessoryType().name())
+                .developerType(pet.getDeveloperType() != null ? pet.getDeveloperType().name() : null)
+                .habitatType(pet.getHabitatType() != null ? pet.getHabitatType().name() : null)
+                .accessoryType(pet.getAccessoryType() != null ? pet.getAccessoryType().name() : null)
                 .knowledge(pet.getKnowledge())
                 .levelKnowledge(pet.getLevelKnowledge())
                 .happiness(pet.getHappiness())
                 .energy(pet.getEnergy())
                 .stacks(pet.getStackPoints() != null ?
                         pet.getStackPoints().entrySet().stream()
-                                .map(entry ->
-                                        new StackProgress(entry.getKey(), entry.getValue()))
+                                .map(entry -> new StackProgress(entry.getKey(), entry.getValue()))
                                 .toList()
                         : List.of())
-                .ownerUsername(pet.getUser().getUsername())
+                .ownerUsername(pet.getUser() != null ? pet.getUser().getUsername() : null)
                 .build();
     }
 
