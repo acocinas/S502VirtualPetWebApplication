@@ -16,3 +16,22 @@ export async function getAllPets() {
 
   return response.json();
 }
+
+export async function createPet(petData) {
+  const token = localStorage.getItem('token');
+
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(petData)
+  });
+
+  if (!response.ok) {
+    throw new Error('Error al crear la mascota');
+  }
+
+  return response.json();
+}
