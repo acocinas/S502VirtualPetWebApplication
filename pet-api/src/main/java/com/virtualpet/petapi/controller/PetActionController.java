@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/api/v1/pets")
@@ -29,4 +31,12 @@ public class PetActionController {
         PetDTO updated = petMapper.toDto(pet);
         return ResponseEntity.ok(updated);
     }
+
+    @GetMapping("/stacks")
+    public ResponseEntity<List<String>> getAllAvailableStacks() {
+        return ResponseEntity.ok(
+                List.of("Java", "React", "Spring", "HTML", "CSS", "MySQL", "Docker", "GitHub", "Kubernetes")
+        );
+    }
+
 }
