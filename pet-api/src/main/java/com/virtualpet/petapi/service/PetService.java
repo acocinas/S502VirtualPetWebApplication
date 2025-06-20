@@ -74,4 +74,10 @@ public class PetService {
             petRepository.delete(pet);
         }
     }
+    public PetDTO getPetById(Long id) {
+        Pet pet = petRepository.findById(id)
+                .orElseThrow(() -> new PetNotFoundException("Pet not found with id: " + id));
+        return petMapper.toDto(pet);
+    }
+
 }

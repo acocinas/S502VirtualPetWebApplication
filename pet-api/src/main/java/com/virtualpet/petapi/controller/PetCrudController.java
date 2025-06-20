@@ -42,4 +42,10 @@ public class PetCrudController {
         petService.deletePet(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PetDTO> getPetById(@PathVariable Long id) {
+        return ResponseEntity.ok(petService.getPetById(id));
+    }
+
 }
