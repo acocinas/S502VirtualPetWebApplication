@@ -6,24 +6,25 @@ import HabitatSelector from './HabitatSelector';
 import EatButton from './EatButton';
 import SleepButton from './SleepButton';
 import PlayButton from './PlayButton';
-import { getPetById, patchHabitat } from '../services/petService';
-import { Pet, Stack } from '../types/Pet';
+import StudyButton from './StudyButton';
+import { getPetById, patchHabitat, deletePet } from '../services/petService';
+import { Pet } from '../types/Pet';
+import { studyPet } from '../actions/StudyAction';
 
 interface Props {
   pet: Pet;
   onPetUpdated: (updatedPet: Pet) => void;
+  onReturnHome: () => void; // callback para volver al menú principal
 }
 
-const PetCard: React.FC<Props> = ({ pet, onPetUpdated }) => {
+const PetCard: React.FC<Props> = ({ pet, onPetUpdated, onReturnHome }) => {
   const [localPet, setLocalPet] = useState(pet);
   const [habitat, setHabitat] = useState(pet.habitatType);
-  useEffect(() => {
-  setLocalPet(pet);
-  setHabitat(pet.habitatType);
-}, [pet]);
-console.log('[PROP] pet recibida del padre:', pet);
-console.log('[STATE] localPet:', localPet);
 
+  useEffect(() => {
+    setLocalPet(pet);
+    setHabitat(pet.habitatType);
+  }, [pet]);
 
   const getImage = (): string | undefined => {
     if (localPet.developerType === 'FRONTEND') return conejo;
@@ -38,7 +39,7 @@ console.log('[STATE] localPet:', localPet);
     try {
       const freshPet = await getPetById(localPet.id);
       setLocalPet(prev => ({ ...prev, ...freshPet }));
-      onPetUpdated(freshPet); // ✅ actualiza el padre
+      onPetUpdated(freshPet);
     } catch (error) {
       console.error('Error al actualizar la mascota', error);
     }
@@ -55,6 +56,36 @@ console.log('[STATE] localPet:', localPet);
     }
   };
 
+  const handleStudy = async (stackName: string) => {
+    try {
+      const updatedPet = await studyPet(localPet.id, stackName);
+      setLocalPet(updatedPet);
+      onPetUpdated(updatedPet);
+    } catch (error) {
+      alert('Error al estudiar');
+    }
+  };
+
+const handleDelete = async () => {
+  const confirmDelete = window.confirm('¿Estás seguro de que quieres eliminar esta mascota?');
+  if (!confirmDelete) return;
+
+  try {
+    await deletePet(localPet.id);
+    alert('Mascota eliminada correctamente');
+    setTimeout(() => {
+      onReturnHome();
+    }, 200); // pequeña pausa para evitar que el render tras redirigir cause error
+  } catch (error: any) {
+    console.error('Error al eliminar la mascota:', error);
+    const msg = error?.response?.status === 403
+      ? 'No tienes permisos para eliminar esta mascota.'
+      : 'No se pudo eliminar la mascota';
+    alert(msg);
+  }
+};
+
+
   return (
     <div
       style={{
@@ -68,8 +99,52 @@ console.log('[STATE] localPet:', localPet);
         alignItems: 'center',
         padding: '2rem',
         boxSizing: 'border-box',
+        position: 'relative',
       }}
     >
+      {/* Botón cerrar sesión */}
+      <button
+        onClick={() => {
+          localStorage.removeItem('token');
+          window.location.href = '/';
+        }}
+        style={{
+          position: 'absolute',
+          top: '10px',
+          left: '10px',
+          backgroundColor: '#444',
+          color: 'white',
+          border: 'none',
+          padding: '10px 15px',
+          borderRadius: '8px',
+          fontWeight: 'bold',
+          cursor: 'pointer',
+          zIndex: 10,
+        }}
+      >
+        🔒 Cerrar sesión
+      </button>
+
+      {/* Botón volver */}
+      <button
+        onClick={onReturnHome}
+        style={{
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+          backgroundColor: '#444',
+          color: 'white',
+          border: 'none',
+          padding: '10px 15px',
+          borderRadius: '8px',
+          fontWeight: 'bold',
+          cursor: 'pointer',
+          zIndex: 10,
+        }}
+      >
+        ← Volver
+      </button>
+
       {image && (
         <img
           src={image}
@@ -100,10 +175,17 @@ console.log('[STATE] localPet:', localPet);
           onHabitatChange={handleHabitatChange}
         />
 
-        <div style={{ display: 'flex', gap: '1.2rem', margin: '1rem 0' }}>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', margin: '1rem 0' }}>
           <EatButton petId={localPet.id} onActionCompleted={refreshPet} />
           <SleepButton petId={localPet.id} onActionCompleted={refreshPet} />
           <PlayButton petId={localPet.id} onActionCompleted={refreshPet} />
+          {localPet.stacks && (
+            <StudyButton
+              availableStacks={localPet.stacks.map(stack => stack.stackName)}
+              stacks={localPet.stacks}
+              onStudy={handleStudy}
+            />
+          )}
         </div>
 
         <p>🧸 Accesorio: {localPet.accessoryType}</p>
@@ -124,6 +206,23 @@ console.log('[STATE] localPet:', localPet);
             </ul>
           </div>
         )}
+
+        {/* Botón eliminar mascota */}
+        <button
+          onClick={handleDelete}
+          style={{
+            marginTop: '1.5rem',
+            backgroundColor: '#b00020',
+            color: 'white',
+            border: 'none',
+            padding: '0.6rem 1.2rem',
+            borderRadius: '8px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+          }}
+        >
+          🗑️ Eliminar mascota
+        </button>
       </div>
     </div>
   );
