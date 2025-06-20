@@ -1,24 +1,12 @@
 import { useEffect, useState } from 'react';
 import { getAllPets } from '../services/petService';
 import PetCard from '../components/PetCard';
+import { Pet } from '../types/Pet';
+
 
 interface Stack {
   stackName: string;
   studyPoints: number;
-}
-
-interface Pet {
-  id: number;
-  name: string;
-  developerType: 'FRONTEND' | 'BACKEND';
-  habitatType: string;
-  accessoryType: string;
-  knowledge: number;
-  levelKnowledge: number;
-  happiness: number;
-  energy: number;
-  stacks?: Stack[];
-  ownerUsername: string;
 }
 
 const MyPets: React.FC = () => {
@@ -35,6 +23,12 @@ const MyPets: React.FC = () => {
       .catch(err => setError(err.message));
   }, [username]);
 
+  const handlePetUpdated = (updatedPet: Pet) => {
+    setPets(prev =>
+      prev.map(pet => (pet.id === updatedPet.id ? updatedPet : pet))
+    );
+  };
+
   return (
     <div>
       <h2>🐶 Mis Mascotas ({username})</h2>
@@ -42,7 +36,7 @@ const MyPets: React.FC = () => {
       {pets.length > 0 ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {pets.map(pet => (
-            <PetCard key={pet.id} pet={pet} />
+            <PetCard key={pet.id} pet={pet} onPetUpdated={handlePetUpdated} />
           ))}
         </div>
       ) : (

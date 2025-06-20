@@ -5,7 +5,6 @@ interface PetData {
   developerType: 'FRONTEND' | 'BACKEND';
   habitatType: string;
   accessoryType: string;
-  // puedes añadir más campos si los tienes definidos
 }
 
 export async function getAllPets(): Promise<any> {
@@ -53,11 +52,28 @@ export async function patchHabitat(petId: number, habitatType: string): Promise<
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     },
-    body: JSON.stringify({ newHabitat: habitatType }) // 🔧 Campo corregido
+    body: JSON.stringify({ newHabitat: habitatType })
   });
 
   if (!response.ok) {
     throw new Error('Error al actualizar el hábitat');
+  }
+
+  return response.json();
+}
+
+export async function getPetById(petId: number): Promise<any> {
+  const token = localStorage.getItem('token');
+
+  const response = await fetch(`${API_URL}/${petId}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error('Error al obtener la mascota actualizada');
   }
 
   return response.json();
