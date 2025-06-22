@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import conejo from '../assets/conejo.png';
-import pollito from '../assets/pollito.png';
+import conejo from '../assets/pets/conejo.png';
+import pollito from '../assets/pets/pollito.png';
 import habitatImages from '../assets/habitatImages';
 import HabitatSelector from './HabitatSelector';
 import EatButton from './EatButton';
@@ -100,30 +100,8 @@ const handleDelete = async () => {
         padding: '2rem',
         boxSizing: 'border-box',
         position: 'relative',
-      }}
-    >
-      {/* Botón cerrar sesión */}
-      <button
-        onClick={() => {
-          localStorage.removeItem('token');
-          window.location.href = '/';
-        }}
-        style={{
-          position: 'absolute',
-          top: '10px',
-          left: '10px',
-          backgroundColor: '#444',
-          color: 'white',
-          border: 'none',
-          padding: '10px 15px',
-          borderRadius: '8px',
-          fontWeight: 'bold',
-          cursor: 'pointer',
-          zIndex: 10,
-        }}
-      >
-        🔒 Cerrar sesión
-      </button>
+      }}>
+
 
       {/* Botón volver */}
       <button

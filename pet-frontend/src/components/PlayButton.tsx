@@ -1,5 +1,6 @@
 import React from 'react';
-import { playPet, playImageIcon } from '../actions/PlayAction';
+import playIcon from '../assets/action_buttons/ps.png';
+import { playPet } from '../actions/PlayAction';
 import { Pet } from '../types/Pet';
 
 interface Props {
@@ -10,20 +11,17 @@ interface Props {
 const PlayButton: React.FC<Props> = ({ petId, onActionCompleted }) => {
   const handleClick = async () => {
     try {
-      const updatedPet = await playPet(petId); // ✅ recibe mascota actualizada
-      onActionCompleted(updatedPet);           // ✅ se la pasa al padre
+      const updatedPet = await playPet(petId);
+      onActionCompleted(updatedPet);
     } catch (error) {
       alert('Error al jugar');
     }
   };
 
   return (
-    <button
-      onClick={handleClick}
-      style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
-    >
+    <button onClick={handleClick} style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}>
       <img
-        src={playImageIcon}
+        src={playIcon}
         alt="Jugar"
         title="Jugar y aumentar felicidad"
         style={{ width: '50px' }}

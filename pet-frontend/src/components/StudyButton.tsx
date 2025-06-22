@@ -1,6 +1,6 @@
 // src/components/StudyButton.tsx
 import React, { useState } from 'react';
-import studyIcon from '../assets/study.png';
+import studyIcon from '../assets/action_buttons/study.png';
 import allStacks from '../constants/allStacks';
 import { Stack } from '../types/Pet';
 

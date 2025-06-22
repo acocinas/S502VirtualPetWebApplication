@@ -1,5 +1,4 @@
 const API_URL = 'http://localhost:8080/api/v1/pets';
-import playImage from '../assets/ps.png';
 
 export const playPet = async (petId: number): Promise<any> => {
   const token = localStorage.getItem('token');
@@ -22,5 +21,3 @@ export const playPet = async (petId: number): Promise<any> => {
 
   return response.json();
 };
-
-export const playImageIcon = playImage;

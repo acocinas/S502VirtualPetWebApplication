@@ -1,7 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPet } from '../services/petService';
-import createPetBg from '../assets/CreatePet.png'; // asegúrate de que la ruta es correcta
+import createPetBg from '../assets/wallpapers/CreatePet.png';
 
 const CreatePet: React.FC = () => {
   const [name, setName] = useState<string>('');
@@ -21,7 +21,7 @@ const CreatePet: React.FC = () => {
       await createPet({
         name,
         developerType,
-        habitatType: 'REST_ZONE',       // se puede personalizar más adelante
+        habitatType: 'REST_ZONE',
         accessoryType: 'NO_ACCESSORY',
       });
       alert('Mascota creada correctamente');
@@ -30,6 +30,10 @@ const CreatePet: React.FC = () => {
       console.error(err);
       setError('Error al crear la mascota');
     }
+  };
+
+  const handleReturn = () => {
+    navigate('/home');
   };
 
   return (
@@ -48,6 +52,26 @@ const CreatePet: React.FC = () => {
         position: 'relative',
       }}
     >
+      {/* 🔙 Botón Volver */}
+      <button
+        onClick={handleReturn}
+        style={{
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+          backgroundColor: '#444',
+          color: 'white',
+          border: 'none',
+          padding: '10px 15px',
+          borderRadius: '8px',
+          fontWeight: 'bold',
+          cursor: 'pointer',
+          zIndex: 10,
+        }}
+      >
+        ← Volver
+      </button>
+
       <div
         style={{
           backgroundColor: 'rgba(255, 255, 255, 0)',

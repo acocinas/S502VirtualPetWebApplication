@@ -1,10 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import personalPet from '../assets/personalPet.png';
+import { Link, useNavigate } from 'react-router-dom';
+import personalPet from '../assets/wallpapers/personalPet.png';
 
 const Home: React.FC = () => {
   const username = localStorage.getItem('username') || 'Usuario';
   const role = localStorage.getItem('role');
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('role');
+    navigate('/');
+  };
 
   return (
     <div
@@ -38,7 +46,7 @@ const Home: React.FC = () => {
           boxShadow: '0 0 15px rgba(0,0,0,0.3)',
           zIndex: 10,
           width: '280px',
-          height: role === 'ROLE_ADMIN' ? '200px' : '160px',
+          height: role === 'ROLE_ADMIN' ? '250px' : '210px', // Ajustamos altura para incluir el botón logout
         }}
       >
         <h2 style={{ margin: 0 }}>Hola, {username} 👋</h2>
@@ -120,6 +128,23 @@ const Home: React.FC = () => {
             </Link>
           </div>
         )}
+
+        {/* 🔒 Botón Cerrar Sesión */}
+        <button
+          onClick={handleLogout}
+          style={{
+            marginTop: '1rem',
+            backgroundColor: '#444',
+            color: 'white',
+            border: 'none',
+            padding: '0.5rem 1rem',
+            borderRadius: '0.5rem',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+          }}
+        >
+          🔒 Cerrar sesión
+        </button>
       </div>
     </div>
   );

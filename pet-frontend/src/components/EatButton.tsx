@@ -1,6 +1,6 @@
 // src/components/EatButton.tsx
 import React from 'react';
-import burgerIcon from '../assets/burger.png';
+import burgerIcon from '../assets/action_buttons/burger.png';
 import { eatPet } from '../actions/EatAction';
 import { Pet } from '../types/Pet';
 

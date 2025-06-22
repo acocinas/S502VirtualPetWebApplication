@@ -1,7 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { login, register } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
-import virtualPetBackground from '../assets/virtualPet.png';
+import virtualPetBackground from '../assets/wallpapers/virtualPet.png';
 
 const Login: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
