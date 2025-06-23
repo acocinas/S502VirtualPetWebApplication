@@ -7,6 +7,8 @@ import AdminPets from './pages/AdminPets';
 import MyPets from './pages/MyPets';
 import CreatePet from './pages/CreatePet';
 import PetDetail from './pages/PetDetail';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App: React.FC = () => {
   return (
@@ -17,9 +19,20 @@ const App: React.FC = () => {
         <Route path="/pets" element={<PetList />} />
         <Route path="/admin/pets" element={<AdminPets />} />
         <Route path="/mypets" element={<MyPets />} />
-        <Route path="/mypets/:id" element={<PetDetail />} /> {/* Ruta detalle */}
+        <Route path="/mypets/:id" element={<PetDetail />} />
         <Route path="/create-pet" element={<CreatePet />} />
       </Routes>
+
+      {/* 🔔 Contenedor para las notificaciones */}
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnHover
+        theme="dark"
+      />
     </Router>
   );
 };

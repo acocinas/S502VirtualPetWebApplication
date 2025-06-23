@@ -2,6 +2,7 @@ import { useState, FormEvent } from 'react';
 import { login, register } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
 import virtualPetBackground from '../assets/wallpapers/virtualPet.png';
+import { notificationService } from '../services/notificationService';
 
 const Login: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -11,30 +12,36 @@ const Login: React.FC = () => {
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
-    if (!username || !password) return alert('Rellena todos los campos');
+    if (!username || !password) {
+      notificationService.error('Rellena todos los campos');
+      return;
+    }
 
     try {
       const response = await login(username, password);
       localStorage.setItem('token', response.token);
       localStorage.setItem('username', response.user.username);
       localStorage.setItem('role', response.user.role);
-      alert('¡Login correcto!');
+      notificationService.success('¡Login correcto!');
       navigate('/home');
     } catch (error) {
-      alert('Error al iniciar sesión');
+      notificationService.error('Error al iniciar sesión');
     }
   };
 
   const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
-    if (!username || !password) return alert('Rellena todos los campos');
+    if (!username || !password) {
+      notificationService.error('Rellena todos los campos');
+      return;
+    }
 
     try {
       await register(username, password);
-      alert('Usuario registrado. Ahora puedes iniciar sesión.');
+      notificationService.success('Usuario registrado. Ahora puedes iniciar sesión.');
       setIsLogin(true);
     } catch (error) {
-      alert('Error al registrar usuario');
+      notificationService.error('Error al registrar usuario');
     }
   };
 
@@ -60,7 +67,7 @@ const Login: React.FC = () => {
           padding: '2rem',
           width: '90%',
           maxWidth: '400px',
-          marginTop: '30vh', // 👈 Ajusta esto según la altura de tu mochila
+          marginTop: '30vh',
           boxShadow: '0 0 20px rgba(0,0,0,0.3)',
         }}
       >

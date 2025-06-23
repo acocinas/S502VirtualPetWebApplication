@@ -2,6 +2,7 @@ import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPet } from '../services/petService';
 import createPetBg from '../assets/wallpapers/CreatePet.png';
+import { notificationService } from '../services/notificationService';
 
 const CreatePet: React.FC = () => {
   const [name, setName] = useState<string>('');
@@ -24,11 +25,13 @@ const CreatePet: React.FC = () => {
         habitatType: 'REST_ZONE',
         accessoryType: 'NO_ACCESSORY',
       });
-      alert('Mascota creada correctamente');
+      notificationService.success('Mascota creada correctamente');
+      setError('');
       navigate('/mypets');
     } catch (err) {
       console.error(err);
-      setError('Error al crear la mascota');
+      setError('');
+      notificationService.error('Error al crear la mascota');
     }
   };
 
@@ -52,7 +55,6 @@ const CreatePet: React.FC = () => {
         position: 'relative',
       }}
     >
-      {/* 🔙 Botón Volver */}
       <button
         onClick={handleReturn}
         style={{
