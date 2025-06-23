@@ -1,12 +1,12 @@
-import java from '../assets/java.png';
-import react from '../assets/React.png';
-import html from '../assets/HTML.png';
-import css from '../assets/CSS.png';
-import mysql from '../assets/MySql.png';
-import docker from '../assets/Docker.png';
-import kubernetes from '../assets/kubernetes.png';
-import spring from '../assets/Spring.png';
-import github from '../assets/Github.png';
+import java from '../assets/stacks/java.png';
+import react from '../assets/stacks/React.png';
+import html from '../assets/stacks/HTML.png';
+import css from '../assets/stacks/CSS.png';
+import mysql from '../assets/stacks/MySql.png';
+import docker from '../assets/stacks/Docker.png';
+import kubernetes from '../assets/stacks/kubernetes.png';
+import spring from '../assets/stacks/Spring.png';
+import github from '../assets/stacks/Github.png';
 
 export const allStacks = [
   { name: 'Java', image: java },
