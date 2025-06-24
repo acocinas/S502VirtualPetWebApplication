@@ -60,7 +60,9 @@ Users can:
  
 </details>
 
-
+🔗 **Presentation available here:**  
+📄 [📊 AI in Application Development – Gamma Presentation](https://gamma.app/docs/IA-en-el-Desarrollo-de-Aplicaciones-jdq6ozc27vcxng3?mode=doc)  
+---
 
 ## 🧱 Technologies Used
 
