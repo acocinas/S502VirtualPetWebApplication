@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { getPetById } from '../services/petService';
 import PetCard from '../components/PetCard';
 import { Pet } from '../types/Pet';
@@ -7,6 +7,7 @@ import { Pet } from '../types/Pet';
 const PetDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [pet, setPet] = useState<Pet | null>(null);
   const [error, setError] = useState<string>('');
@@ -24,7 +25,8 @@ const PetDetail: React.FC = () => {
   };
 
   const handleReturnHome = () => {
-    navigate('/mypets'); // Vuelve a la lista de mascotas del usuario
+    const returnTo = location.state?.returnTo || '/mypets';
+    navigate(returnTo);
   };
 
   if (error) {

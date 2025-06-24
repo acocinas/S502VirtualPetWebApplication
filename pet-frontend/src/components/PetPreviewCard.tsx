@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Pet } from '../types/Pet';
 import frontendImg from '../assets/pets/conejo.png';
 import backendImg from '../assets/pets/pollito.png';
@@ -11,9 +11,11 @@ type Props = {
 
 const PetPreviewCard: React.FC<Props> = ({ pet, showOwner = false }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleClick = () => {
-    navigate(`/mypets/${pet.id}`);
+    // Ruta actual como origen de retorno
+    navigate(`/mypets/${pet.id}`, { state: { returnTo: location.pathname } });
   };
 
   const petImage = pet.developerType === 'FRONTEND' ? frontendImg : backendImg;
