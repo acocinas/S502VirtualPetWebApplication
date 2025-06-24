@@ -35,6 +35,11 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
+    @ExceptionHandler(HandleGenericException.class)
+    public ResponseEntity<Object> handleHandleGenericException(HandleGenericException ex) {
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
     @ExceptionHandler(PetAlreadyExistsException.class)
     public ResponseEntity<Object> handlePetAlreadyExistsException(PetAlreadyExistsException ex) {
         return buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
