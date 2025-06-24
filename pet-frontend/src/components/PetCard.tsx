@@ -10,6 +10,9 @@ import StudyButton from './StudyButton';
 import { getPetById, patchHabitat, deletePet } from '../services/petService';
 import { Pet } from '../types/Pet';
 import { studyPet } from '../actions/StudyAction';
+import { accessoryImageMap } from '../constants/accessoryImageMap';
+
+
 
 interface Props {
   pet: Pet;
@@ -66,24 +69,28 @@ const PetCard: React.FC<Props> = ({ pet, onPetUpdated, onReturnHome }) => {
     }
   };
 
-const handleDelete = async () => {
-  const confirmDelete = window.confirm('¿Estás seguro de que quieres eliminar esta mascota?');
-  if (!confirmDelete) return;
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm('¿Estás seguro de que quieres eliminar esta mascota?');
+    if (!confirmDelete) return;
 
-  try {
-    await deletePet(localPet.id);
-    alert('Mascota eliminada correctamente');
-    setTimeout(() => {
-      onReturnHome();
-    }, 200); // pequeña pausa para evitar que el render tras redirigir cause error
-  } catch (error: any) {
-    console.error('Error al eliminar la mascota:', error);
-    const msg = error?.response?.status === 403
-      ? 'No tienes permisos para eliminar esta mascota.'
-      : 'No se pudo eliminar la mascota';
-    alert(msg);
-  }
-};
+    try {
+      await deletePet(localPet.id);
+      alert('Mascota eliminada correctamente');
+      setTimeout(() => {
+        onReturnHome();
+      }, 200); // pequeña pausa para evitar que el render tras redirigir cause error
+    } catch (error: any) {
+      console.error('Error al eliminar la mascota:', error);
+      const msg = error?.response?.status === 403
+        ? 'No tienes permisos para eliminar esta mascota.'
+        : 'No se pudo eliminar la mascota';
+      alert(msg);
+    }
+  };
+
+  const accessoryImage = localPet.habitatType === 'WORKSPACE' && localPet.accessoryType !== 'DESKTOP'
+    ? accessoryImageMap[localPet.accessoryType]
+    : undefined;
 
 
   return (
@@ -134,6 +141,33 @@ const handleDelete = async () => {
           }}
         />
       )}
+
+      {accessoryImage && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '80%',
+            left: '35%',
+            transform: 'translate(-50%, -50%)',
+            width: '350px',
+            zIndex: 3,
+          }}
+        >
+          <img
+            src={accessoryImage}
+            alt={localPet.accessoryType}
+            style={{
+              width: '100%',
+              height: 'auto',
+              objectFit: 'contain',
+              pointerEvents: 'none',
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              borderRadius: '12px',
+            }}
+          />
+        </div>
+      )}
+
 
       <div
         style={{
