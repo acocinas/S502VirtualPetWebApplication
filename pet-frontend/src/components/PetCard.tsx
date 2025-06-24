@@ -51,6 +51,39 @@ const PetCard: React.FC<Props> = ({ pet, onPetUpdated, onReturnHome }) => {
 
   const image = getImage();
   const backgroundImage = habitatImages[habitat];
+const refreshAfterEat = async () => {
+  try {
+    const freshPet = await getPetById(localPet.id);
+    setLocalPet(prev => ({ ...prev, ...freshPet }));
+    onPetUpdated(freshPet);
+
+    // Mostrar hamburguesa durante 2 segundos
+    setShowEatGif(true);
+    setTimeout(() => setShowEatGif(false), 2000);
+  } catch (error) {
+    console.error('Error after eating:', error);
+  }
+};
+
+const refreshAfterSleep = async () => {
+  try {
+    const freshPet = await getPetById(localPet.id);
+    setLocalPet(prev => ({ ...prev, ...freshPet }));
+    onPetUpdated(freshPet);
+  } catch (error) {
+    console.error('Error after sleeping:', error);
+  }
+};
+
+const refreshAfterPlay = async () => {
+  try {
+    const freshPet = await getPetById(localPet.id);
+    setLocalPet(prev => ({ ...prev, ...freshPet }));
+    onPetUpdated(freshPet);
+  } catch (error) {
+    console.error('Error after playing:', error);
+  }
+};
 
   const refreshPet = async () => {
     try {
@@ -234,9 +267,9 @@ const PetCard: React.FC<Props> = ({ pet, onPetUpdated, onReturnHome }) => {
         />
 
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', margin: '1rem 0' }}>
-          <EatButton petId={localPet.id} onActionCompleted={refreshPet} />
-          <SleepButton petId={localPet.id} onActionCompleted={refreshPet} />
-          <PlayButton petId={localPet.id} onActionCompleted={refreshPet} />
+          <EatButton petId={localPet.id} onActionCompleted={refreshAfterEat} />
+          <SleepButton petId={localPet.id} onActionCompleted={refreshAfterSleep} />
+          <PlayButton petId={localPet.id} onActionCompleted={refreshAfterPlay} />
           {localPet.stacks && (
             <StudyButton
               availableStacks={localPet.stacks.map(stack => stack.stackName)}
