@@ -11,6 +11,8 @@ import { getPetById, patchHabitat, deletePet } from '../services/petService';
 import { Pet } from '../types/Pet';
 import { studyPet } from '../actions/StudyAction';
 import { accessoryImageMap } from '../constants/accessoryImageMap';
+import { clothedPetImages } from '../constants/clothedPetImages';
+
 
 
 
@@ -30,10 +32,16 @@ const PetCard: React.FC<Props> = ({ pet, onPetUpdated, onReturnHome }) => {
   }, [pet]);
 
   const getImage = (): string | undefined => {
+    // Si hay ropa para este tipo de desarrollador en este hábitat, la usamos
+    const clothing = clothedPetImages[localPet.developerType]?.[habitat];
+    if (clothing) return clothing;
+
+    // Si no, usamos la imagen base
     if (localPet.developerType === 'FRONTEND') return conejo;
     if (localPet.developerType === 'BACKEND') return pollito;
     return undefined;
   };
+
 
   const image = getImage();
   const backgroundImage = habitatImages[habitat];
