@@ -1,3 +1,4 @@
+// src/services/actions/StudyAction.ts
 const API_URL = 'http://localhost:8080/api/v1/pets';
 
 export async function studyPet(petId: number, stackName: string): Promise<any> {
@@ -16,7 +17,16 @@ export async function studyPet(petId: number, stackName: string): Promise<any> {
   });
 
   if (!response.ok) {
-    throw new Error('Error al estudiar');
+    let errorMessage = 'No se pudo estudiar.';
+    try {
+      const errorBody = await response.json();
+      console.log("BODY DEL ERROR", errorBody);
+      errorMessage = errorBody?.message || errorMessage;
+    } catch (e) {
+      console.warn('No se pudo interpretar el error como JSON:', e);
+    }
+    console.log("Lanzando error con mensaje:", errorMessage);
+    throw new Error(errorMessage);
   }
 
   return response.json();

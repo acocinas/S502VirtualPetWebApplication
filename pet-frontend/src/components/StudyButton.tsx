@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 import studyIcon from '../assets/action_buttons/study.png';
 import allStacks from '../constants/allStacks';
 import { Stack } from '../types/Pet';
+import { toast } from 'react-toastify';
 
 interface Props {
   availableStacks: string[];
   stacks: Stack[];
-  onStudy: (stackName: string) => void;
+  onStudy: (stackName: string) => Promise<void>;
 }
 
 const StudyButton: React.FC<Props> = ({ onStudy }) => {
@@ -17,9 +18,19 @@ const StudyButton: React.FC<Props> = ({ onStudy }) => {
     setShowPanel(!showPanel);
   };
 
-  const handleStudyClick = (stackName: string) => {
-    onStudy(stackName);
-    setShowPanel(false);
+  const handleStudyClick = async (stackName: string) => {
+    try {
+      await onStudy(stackName);
+    } catch (err: any) {
+      console.error("Error completo recibido:", err);
+      const backendMessage = err?.message;
+      const finalMessage = backendMessage
+        ? `😓 No puedes estudiar: ${backendMessage}`
+        : '😓 Tu mascota no puede estudiar ahora';
+      toast.error(finalMessage);
+    } finally {
+      setShowPanel(false);
+    }
   };
 
   return (
