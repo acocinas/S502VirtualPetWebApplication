@@ -12,6 +12,8 @@ import { Pet } from '../types/Pet';
 import { studyPet } from '../actions/StudyAction';
 import { accessoryImageMap } from '../constants/accessoryImageMap';
 import { clothedPetImages } from '../constants/clothedPetImages';
+import EatVisualEffect from './EatVisualEffect';
+
 
 
 
@@ -25,6 +27,10 @@ interface Props {
 const PetCard: React.FC<Props> = ({ pet, onPetUpdated, onReturnHome }) => {
   const [localPet, setLocalPet] = useState(pet);
   const [habitat, setHabitat] = useState(pet.habitatType);
+  const [showEatEffect, setShowEatEffect] = useState(false);
+  const [showEatGif, setShowEatGif] = useState(false);
+
+
 
   useEffect(() => {
     setLocalPet(pet);
@@ -51,10 +57,15 @@ const PetCard: React.FC<Props> = ({ pet, onPetUpdated, onReturnHome }) => {
       const freshPet = await getPetById(localPet.id);
       setLocalPet(prev => ({ ...prev, ...freshPet }));
       onPetUpdated(freshPet);
+
+      // Mostrar hamburguesa durante 2 segundos
+      setShowEatGif(true);
+      setTimeout(() => setShowEatGif(false), 2000);
     } catch (error) {
       console.error('Error al actualizar la mascota', error);
     }
   };
+
 
   const handleHabitatChange = async (newHabitat: string) => {
     try {
@@ -138,17 +149,44 @@ const PetCard: React.FC<Props> = ({ pet, onPetUpdated, onReturnHome }) => {
         ← Volver
       </button>
 
-      {image && (
-        <img
-          src={image}
-          alt={localPet.name}
-          style={{
-            width: '220px',
-            height: 'auto',
-            objectFit: 'contain',
-          }}
-        />
-      )}
+      <div
+        style={{
+          position: 'relative',
+          width: '300px',
+          height: 'auto',
+        }}
+      >
+        {image && (
+          <img
+            src={image}
+            alt={localPet.name}
+            style={{
+              width: '300px',
+              height: 'auto',
+              objectFit: 'contain',
+              zIndex: 1,
+              position: 'relative',
+            }}
+          />
+        )}
+
+        {showEatGif && (
+          <div
+            style={{
+              position: 'absolute',
+              top: '55%',
+              left: '38%',
+              transform: 'translateX(-50%)',
+              width: '100px',
+              zIndex: 2,
+              pointerEvents: 'none',
+            }}
+          >
+            <EatVisualEffect visible={true} />
+          </div>
+        )}
+      </div>
+
 
       {accessoryImage && (
         <div
@@ -169,7 +207,7 @@ const PetCard: React.FC<Props> = ({ pet, onPetUpdated, onReturnHome }) => {
               height: 'auto',
               objectFit: 'contain',
               pointerEvents: 'none',
-              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              backgroundColor: 'rgba(255, 255, 255, 0.6)',
               borderRadius: '12px',
             }}
           />
